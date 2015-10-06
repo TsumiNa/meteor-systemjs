@@ -1,0 +1,1 @@
+# configurable meteor systemjs loader
