@@ -1,6 +1,6 @@
 Package.describe({
   name: 'tsumina:meteor-systemjs',
-  version: '0.0.4',
+  version: '0.1.0',
   // Brief, one-line summary of the package.
   summary: 'Systemjs loader for meteor. Running on both side',
   // URL to the Git repository containing the source code for this package.
@@ -12,18 +12,18 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.2.0.2');
-  // api.use('ecmascript');
   api.use('promise');
-  api.addFiles('lib/require.js', 'server');
+  api.addFiles('lib/require.js', 'server', {bare: true});
   api.addFiles([
     'lib/system-polyfills.src.js',
     'lib/system.src.js',
-    'lib/config.js'
-  ])
+    'lib/config.js',
+    'lib/amd.js'
+  ], ['server', 'client'], {bare: true});
+  api.export('define');
 });
 
 Package.onTest(function(api) {
-  // api.use('ecmascript');
   api.use('tinytest');
   api.use('tsumina:meteor-systemjs');
   api.addFiles('meteor-systemjs-tests.js');
