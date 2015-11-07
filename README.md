@@ -3,7 +3,9 @@
 **This package adds SystemJS Module Loader to your project.**
 This package use SystemJS default configuration. You can use `import` and `export` syntax on both client/server side.
 
-**You can not use it alone**. Because the js-compiler of meteor will only transpile files with on module system. You can use it with [meteor-typescript](https://github.com/TsumiNa/meteor-typescript). It's a typescript compiler can transpile files to `system` and `amd`.
+> *You must use it with other meteor packages that can product systemjs compatible scripts*. 
+
+You can use it with [meteor-typescript](https://github.com/TsumiNa/meteor-typescript). It's a typescript compiler can transpile files to `system` and `amd`.
 ```bash
 $ meteor add tsumina:meteor-systemjs
 $ meteor add tsumina:meteor-typescript  # add typescript compiler
@@ -16,11 +18,11 @@ See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 
 ## change log
+#### 0.2.0
+- Update systemjs to v0.19.5
+
 #### 0.1.0
 - amd module load support
-
-#### 0.0.4
-- Update systemjs to v0.19.4
 
 ## Usage
 ```bash
