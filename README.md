@@ -18,21 +18,11 @@ See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 
 ## change log
-#### 0.2.0
-- Update systemjs to v0.19.5
+#### 0.2.1
+- Update systemjs to v0.19.6
 
 #### 0.1.0
 - amd module load support
-
-## Usage
-```bash
-$ meteor add tsumina:meteor-systemjs
-```
-
-### Roadmap
-
-- [ ] examples for usage
-- [ ] Improve README
 
 
 ### Copyright and license
