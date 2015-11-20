@@ -1,23 +1,50 @@
 ## Systemjs ES6 modules loader on both side
 
-**This package adds SystemJS Module Loader to your project.**
-This package use SystemJS default configuration. You can use `import` and `export` syntax on both client/server side.
+**This package adds SystemJS Module Loader to your project.** 
+You can use `import` and `export` syntax on both client/server side.
 
-> *You must use it with other meteor packages that can product systemjs compatible scripts*. 
+**This package add `.sys.js` extension to your app.** 
+ES6 codes in `.sys.js` extension files will be transpiled to `systemjs loader` compatible files. For example:
 
-You can use it with [meteor-typescript](https://github.com/TsumiNa/meteor-typescript). It's a typescript compiler can transpile files to `system` and `amd`.
+* `foo.sys.js`
+
+```javascript
+import 'jQuery'
+export const FOO = 'SYSTEM';
+```
+
+* `bar.sys.js`
+
+```js
+import {FOO} from `./foo`
+console.log(FOO);
+```
+then use a `System.import()` to load them
+
+* `startup.js`
+
+```js
+// this will load on both side
+System.import('bar');
+```
+
+You can also use it with [meteor-typescript](https://github.com/TsumiNa/meteor-typescript). Transpile `ts` files to `system` and `amd` compatible `js` files.
 ```bash
 $ meteor add tsumina:meteor-systemjs
 $ meteor add tsumina:meteor-typescript  # add typescript compiler
 ```
 
 ## SystemJS API
-Full SystemJS API docs can be found [on their Github repo](https://github.com/systemjs/systemjs/blob/master/docs/system-api.md).
+This package use SystemJS default configuration. Full SystemJS API docs can be found [on their Github repo](https://github.com/systemjs/systemjs/blob/master/docs/system-api.md).
 
 See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 
 ## change log
+
+#### 0.3.1
+- **[*breaking change*]:** Now ES6 compiler is bundle with this package. You can use `sys.js` extension to work with `systemjs loader`.
+
 #### 0.2.1
 - Update systemjs to v0.19.6
 
