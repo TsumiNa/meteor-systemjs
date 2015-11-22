@@ -42,6 +42,9 @@ See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 ## change log
 
+#### 0.3.2
+- AMD loader bug fix.
+
 #### 0.3.1
 - **[*breaking change*]:** Now ES6 compiler is bundle with this package. You can use `sys.js` extension to work with `systemjs loader`.
 
