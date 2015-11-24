@@ -5,7 +5,7 @@ Plugin.registerCompiler({
     extensions: ['sys.js', 'au.js'],
     filenames: []
 }, () => {
-    return new CompilerES();
+    return new ES6Compiler();
 });
 
 function prepareSourceMap(sourceMapContent, fileContent, sourceMapPath) {
@@ -16,10 +16,10 @@ function prepareSourceMap(sourceMapContent, fileContent, sourceMapPath) {
 }
 
 
-class CompilerES extends CachingCompiler {
+class ES6Compiler extends CachingCompiler {
     constructor() {
         super({
-            compilerName: 'CompilerES',
+            compilerName: 'ES6Compiler',
             defaultCacheSize: 1024 * 1024 * 10,
         });
         // starting message
