@@ -45,6 +45,7 @@ Package.registerBuildPlugin({
 
 Package.onTest(function(api) {
     api.use('tinytest');
+    api.use('ecmascript');
     api.use('tsumina:meteor-systemjs');
     api.addFiles('meteor-systemjs-tests.js');
 });
