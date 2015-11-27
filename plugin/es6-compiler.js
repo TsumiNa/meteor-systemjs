@@ -1,4 +1,4 @@
-var babel = Npm.require('babel-core');
+const ts = Npm.require('typescript');
 // const debug = Npm.require('debug')('ts:debug:');
 
 Plugin.registerCompiler({
@@ -22,6 +22,24 @@ class ES6Compiler extends CachingCompiler {
             compilerName: 'ES6Compiler',
             defaultCacheSize: 1024 * 1024 * 10,
         });
+        /**
+         * defaults compiler options
+         */
+        this.options = this.options || {
+            noLib: false,
+            noEmitOnError: false,
+            sourceMap: true,
+            noImplicitAny: false,
+            removeComments: true,
+            emitDecoratorMetadata: true,
+            experimentalDecorators: true,
+            allowNonTsExtensions: true,
+            declaration: false,
+            jsx: ts.JsxEmit.React,
+            target: ts.ScriptTarget.ES5,
+            module: ts.ModuleKind.System
+        };
+
         // starting message
         msg[2](' Using Systemjs Loader...             ');
         msg[2](' Using Aurelia Framework...           ');
@@ -42,15 +60,15 @@ class ES6Compiler extends CachingCompiler {
         let sourceMapPath = inputFile.getDisplayPath();
 
         // debug('Javascript File: %j', inputFile.getPathInPackage());
+        let moduleName = fileName.replace(/(\.au|\.sys)\.js$/, '').replace(/\\/g, '/');
+        moduleName = packageName ? packageName + '/' + moduleName : moduleName;
+
+        let result;
         try {
-            var result = babel.transform(fileContent, {
-                modules: "system",
-                sourceMaps: true,
-                optional: [
-                    "es7.classProperties",
-                    "es7.decorators",
-                    "optimisation.modules.system"
-                ]
+            result = ts.transpileModule(fileContent, {
+                compilerOptions: this.options,
+                moduleName: moduleName,
+                reportDiagnostics: true
             });
         } catch (err) {
             return inputFile.error({
@@ -59,15 +77,32 @@ class ES6Compiler extends CachingCompiler {
             });
         }
 
+        result.diagnostics.forEach(diagnostic => {
+            let message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+            if (!diagnostic.file) {
+                msg[1](` ${message}`);
+                return;
+            }
+            let {
+                line, character
+            } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+
+            // emit error messages
+            // debug('Emit Error File: %j', diagnostic.file.fileName);
+            this.cache.get(diagnostic.file.fileName).error({
+                message: message,
+                column: character + 1,
+                line: line + 1
+            });
+        });
+
         // get transpiled code
-        let moduleName = fileName.replace(/(\.au|\.sys)\.js$/, '').replace(/\\/g, '/');
-        moduleName = packageName ? packageName + '/' + moduleName : moduleName;
-        let code = result.code.replace("System.register([", 'System.register("' + moduleName + '",[');
+        let code = result.outputText;
         code = code.slice(0, code.lastIndexOf("//#"));
 
         // get source map
         let map = prepareSourceMap(
-            result.map,
+            result.sourceMapText,
             fileContent,
             sourceMapPath);
 
