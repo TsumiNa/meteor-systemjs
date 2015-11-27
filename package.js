@@ -1,6 +1,6 @@
 Package.describe({
     name: 'tsumina:meteor-systemjs',
-    version: '0.3.4',
+    version: '0.3.5',
     // Brief, one-line summary of the package.
     summary: 'Systemjs loader for meteor. Running on both side',
     // URL to the Git repository containing the source code for this package.
@@ -13,6 +13,7 @@ Package.describe({
 Package.onUse(function(api) {
     api.versionsFrom('1.2.0.2');
     api.use('isobuild:compiler-plugin@1.0.0');
+    api.use('ecmascript@0.1.6');
     api.addFiles('lib/require.js', 'server', {
         bare: true
     });

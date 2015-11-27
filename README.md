@@ -42,6 +42,10 @@ See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 ## change log
 
+#### 0.3.4
+- Better javascript syntax error output.
+- Optimize javascript output.
+
 #### 0.3.2
 - AMD loader bug fix.
 

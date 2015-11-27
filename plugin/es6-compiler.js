@@ -9,9 +9,10 @@ Plugin.registerCompiler({
 });
 
 function prepareSourceMap(sourceMapContent, fileContent, sourceMapPath) {
-    let sourceMapJson = sourceMapContent;
+    let sourceMapJson = JSON.parse(sourceMapContent);
     sourceMapJson.sourcesContent = [fileContent];
     sourceMapJson.sources = [sourceMapPath];
+    delete sourceMapJson.file;
     return sourceMapJson;
 }
 
@@ -72,7 +73,7 @@ class ES6Compiler extends CachingCompiler {
             });
         } catch (err) {
             return inputFile.error({
-                message: "Javascript syntax error: " + err.message,
+                message: "Compiler error: " + err.message,
                 sourcePath: fileName
             });
         }
@@ -89,7 +90,7 @@ class ES6Compiler extends CachingCompiler {
 
             // emit error messages
             // debug('Emit Error File: %j', diagnostic.file.fileName);
-            this.cache.get(diagnostic.file.fileName).error({
+            inputFile.error({
                 message: message,
                 column: character + 1,
                 line: line + 1
@@ -98,7 +99,7 @@ class ES6Compiler extends CachingCompiler {
 
         // get transpiled code
         let code = result.outputText;
-        code = code.slice(0, code.lastIndexOf("//#"));
+        code = code ? code.slice(0, code.lastIndexOf("//#")) : code;
 
         // get source map
         let map = prepareSourceMap(
