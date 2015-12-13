@@ -42,6 +42,9 @@ See detail about [SystemJS](https://github.com/systemjs/systemjs)
 
 ## change log
 
+#### 0.3.6
+- **Bug fix**, fix `Path reservation conflict` error when your have two or more files have exactly identical content.
+
 #### 0.3.4
 - Better javascript syntax error output.
 - Optimize javascript output.

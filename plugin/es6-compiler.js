@@ -1,4 +1,5 @@
 const ts = Npm.require('typescript');
+const crc = Npm.require('crc');
 // const debug = Npm.require('debug')('ts:debug:');
 
 Plugin.registerCompiler({
@@ -47,10 +48,12 @@ class ES6Compiler extends CachingCompiler {
     }
 
     getCacheKey(inputFile) {
-        return inputFile.getSourceHash();
+        return inputFile.getSourceHash() + crc.crc32(inputFile.getPathInPackage()).toString(32);
     }
 
     compileResultSize(compileResult) {
+        // let path = compileResult.path
+        // debug('Result: %j', path);
         return compileResult.code.length + compileResult.map.length;
     }
 

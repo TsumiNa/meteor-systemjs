@@ -1,6 +1,6 @@
 Package.describe({
     name: 'tsumina:meteor-systemjs',
-    version: '0.3.5',
+    version: '0.3.6',
     // Brief, one-line summary of the package.
     summary: 'Systemjs loader for meteor. Running on both side',
     // URL to the Git repository containing the source code for this package.
@@ -39,7 +39,8 @@ Package.registerBuildPlugin({
         'plugin/es6-compiler.js'
     ],
     npmDependencies: {
-        'typescript': '1.6.2',
+        'typescript': '1.7.3',
+        'crc': '3.4.0',
         'chalk': '1.1.1'
     }
 });
